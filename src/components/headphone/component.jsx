@@ -1,28 +1,21 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
+import { useCount } from "../../hooks/use-count";
 import { Codecs } from "../codecs/component";
 import { Reviews } from "../reviews/component";
+import { useEffect } from "react";
 
 export const Headphone = ({ headphone }) => {
-  const [count, setCount] = useState(0);
+  const { count, increment, decrement, result } = useCount();
+
+  useEffect(() => {
+    increment();
+  }, [increment, result]);
 
   if (!headphone) {
     return <div>No Headphone</div>;
   }
 
   const { name, codecs, reviews } = headphone;
-
-  const increment = () => {
-    if (count < 6) {
-      setCount(count + 1);
-    }
-  };
-
-  const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
 
   return (
     <div>
