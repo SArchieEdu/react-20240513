@@ -16,5 +16,15 @@ export const useCount = ({ initialValue = 0, min = 0, max = 6 } = {}) => {
     );
   }, [min]);
 
-  return { count, increment, decrement };
+  const set = useCallback(
+    (value) => {
+      setCount(Math.max(Math.min(value, max), min));
+    },
+    [min, max]
+  );
+  const reset = useCallback(() => {
+    setCount(initialValue);
+  }, [initialValue]);
+
+  return { count, increment, decrement, set, reset };
 };

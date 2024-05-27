@@ -9,8 +9,16 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <Layout>
-    {headphones.map((headphone) => (
-      <Headphone headphone={headphone} />
-    ))}
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
+    <Headphone headphone={headphones[0]} />
   </Layout>
 );
