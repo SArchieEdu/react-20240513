@@ -1,3 +1,16 @@
+import { useState } from "react";
+import { Modal } from "../modal/component";
+
 export const Header = () => {
-  return <header>Header</header>;
+  const [isVisible, setIsVisible] = useState();
+
+  return (
+    <header>
+      Header
+      <button onClick={() => setIsVisible(!isVisible)}>
+        {isVisible ? "close" : "open"}
+      </button>
+      {isVisible ? <Modal /> : null}
+    </header>
+  );
 };

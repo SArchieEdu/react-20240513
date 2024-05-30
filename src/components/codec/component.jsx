@@ -1,3 +1,13 @@
+import { useContext } from "react";
+import { CountContext } from "../../contexts/count";
+
 export const Codec = ({ codec }) => {
-  return <span>{codec}</span>;
+  const count = useContext(CountContext);
+  console.log("Codec: ", count);
+
+  return (
+    <span>
+      {codec} - {count}
+    </span>
+  );
 };

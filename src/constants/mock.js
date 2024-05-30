@@ -10,8 +10,7 @@ export const headphones = [
       "Отличное качество звука.",
       "Хорошо работают с iPhone.",
     ],
-    // codecs: ["SBC", "AAC"],
-    codecs: [],
+    codecs: ["SBC", "AAC"],
     price: 10,
   },
   {
