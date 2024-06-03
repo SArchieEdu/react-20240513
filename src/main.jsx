@@ -1,14 +1,8 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-children-prop */
 import { createRoot } from "react-dom/client";
-import { headphones } from "./constants/mock";
-import { Headphone } from "./components/headphone/component";
-import { Layout } from "./components/layout/component";
+import { App } from "./App";
 
 const root = createRoot(document.getElementById("root"));
 
-root.render(
-  <Layout>
-    <Headphone headphone={headphones[0]} />
-  </Layout>
-);
+root.render(<App />);

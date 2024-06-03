@@ -1,12 +1,12 @@
 import { Codec } from "../codec/component";
 
 /* eslint-disable react/jsx-key */
-export const Codecs = ({ codecs }) => {
+export const Codecs = ({ codecIds }) => {
   return (
     <ul>
-      {codecs.map((codec) => (
+      {codecIds.map((id) => (
         <li>
-          <Codec codec={codec} />
+          <Codec codecId={id} />
         </li>
       ))}
     </ul>

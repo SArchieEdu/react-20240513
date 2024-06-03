@@ -5,12 +5,13 @@ import { useCount } from "../../hooks/use-count";
 import { Codecs } from "../codecs/component";
 import { NewReviewForm } from "../new-review-form/component";
 import { Reviews } from "../reviews/component";
+import { useSelector } from "react-redux";
 
-export const Headphone = ({ headphone }) => {
+export const Headphone = ({ headphoneId }) => {
+  const headphone = useSelector(
+    (state) => state.headphone.entities[headphoneId]
+  );
   const { count, increment, decrement } = useCount();
-
-  const contextCount = useContext(CountContext);
-  console.log("Headphone: ", contextCount);
 
   if (!headphone) {
     return <div>No Headphone</div>;
@@ -42,12 +43,12 @@ export const Headphone = ({ headphone }) => {
         {!!codecs?.length && (
           <div>
             <h4>Codecs</h4>
-            <Codecs codecs={codecs} />
+            <Codecs codecIds={codecs} />
           </div>
         )}
         <div>
           <h4>Reviews</h4>
-          <Reviews reviews={reviews} />
+          <Reviews reviewIds={reviews} />
           <NewReviewForm />
         </div>
       </div>
