@@ -1,16 +1,10 @@
-import { useState } from "react";
-import { Modal } from "../modal/component";
+import { CartIndicatorContainer } from "../cart-indicator/container";
 
 export const Header = () => {
-  const [isVisible, setIsVisible] = useState();
-
   return (
     <header>
       Header
-      <button onClick={() => setIsVisible(!isVisible)}>
-        {isVisible ? "close" : "open"}
-      </button>
-      {isVisible ? <Modal /> : null}
+      <CartIndicatorContainer />
     </header>
   );
 };

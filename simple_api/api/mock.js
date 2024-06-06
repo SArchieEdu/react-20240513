@@ -1,4 +1,4 @@
-export const normalizedReviews = [
+const normalizedReviews = [
   {
     id: "asdad312143e3r2re12e",
     user: "hr83h29h9h9u12h9213",
@@ -37,7 +37,7 @@ export const normalizedReviews = [
   },
 ];
 
-export const normalizedUsers = [
+const normalizedUsers = [
   {
     id: "hr83h29h9h9u12h9213",
     name: "Artem",
@@ -52,7 +52,7 @@ export const normalizedUsers = [
   },
 ];
 
-export const normalizedCodecs = [
+const normalizedCodecs = [
   { id: "ngu45hg8374hg3g8", type: "SBC" },
   { id: "djuh34782g6g7", type: "AAC" },
   { id: "djuh347adas2g6g7", type: "LDAC" },
@@ -61,7 +61,7 @@ export const normalizedCodecs = [
   { id: "djuaddfs2g623543534g7", type: "aptX LL" },
 ];
 
-export const normalizedHeadphones = [
+const normalizedHeadphones = [
   {
     name: "Apple AirPods Pro",
     id: "MLXJ2LLA",
@@ -113,6 +113,23 @@ export const normalizedHeadphones = [
       "aad31214sd2fr2rwede3rqwdqwd2re12e",
     ],
     codecs: ["djuh34782g6g7", "ngu45hg8374hg3g8"],
+  },
+  {
+    name: "Marshall Major IV",
+    id: "MARSHALLMAJORIVBLK",
+    type: "on-ear",
+    maxVolume: "99 dB",
+    brand: "Marshall",
+    reviews: [
+      "asdad3qdqwdqwd12143e3r2re12e",
+      "as31dqwdqwd21asdad43e3r2re12e",
+      "aad31214sd2fr2rwede3rqwdqwd2re12e",
+    ],
+    codecs: [
+      "asdad312143e3r2re12e",
+      "as3121asdad43e3r2re12e",
+      "aad31214sd2fr2rwede3r2re12e",
+    ],
   },
   {
     name: "Beats Studio 3",
@@ -172,3 +189,10 @@ export const normalizedHeadphones = [
     ],
   },
 ];
+
+module.exports = {
+  products: normalizedHeadphones,
+  codecs: normalizedCodecs,
+  reviews: normalizedReviews,
+  users: normalizedUsers,
+};

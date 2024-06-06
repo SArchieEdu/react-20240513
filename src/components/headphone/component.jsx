@@ -1,17 +1,29 @@
 /* eslint-disable react/jsx-key */
-import { useContext } from "react";
-import { CountContext } from "../../contexts/count";
-import { useCount } from "../../hooks/use-count";
-import { Codecs } from "../codecs/component";
 import { NewReviewForm } from "../new-review-form/component";
 import { Reviews } from "../reviews/component";
 import { useSelector } from "react-redux";
+import { Counter } from "../counter/component";
+import { selectHeadphoneCount } from "../../redux/ui/cart/selectors";
+import { selectHeadphoneById } from "../../redux/entities/headphone/selectors";
+import { useDispatch } from "react-redux";
+import { decrement, increment } from "../../redux/ui/cart";
+import { useCallback } from "react";
+import { CodecsContainer } from "../codecs/container";
 
-export const Headphone = ({ headphoneId }) => {
-  const headphone = useSelector(
-    (state) => state.headphone.entities[headphoneId]
+export const Headphone = ({ id }) => {
+  const headphone = useSelector((state) => selectHeadphoneById(state, id));
+  const count = useSelector((state) => selectHeadphoneCount(state, id));
+  const dispatch = useDispatch();
+
+  const handleIncrement = useCallback(
+    () => dispatch(increment(id)),
+    [dispatch, id]
   );
-  const { count, increment, decrement } = useCount();
+
+  const handleDecrement = useCallback(
+    () => dispatch(decrement(id)),
+    [dispatch, id]
+  );
 
   if (!headphone) {
     return <div>No Headphone</div>;
@@ -20,38 +32,24 @@ export const Headphone = ({ headphoneId }) => {
   const { name, codecs, reviews } = headphone;
 
   return (
-    <CountContext.Provider value={count}>
+    <div>
+      <h3>{name}</h3>
+      <Counter
+        value={count}
+        increment={handleIncrement}
+        decrement={handleDecrement}
+      />
+      {!!codecs?.length && (
+        <div>
+          <h4>Codecs</h4>
+          <CodecsContainer headphoneId={id} />
+        </div>
+      )}
       <div>
-        <h3>{name}</h3>
-        <div>
-          <button
-            onClick={() => {
-              decrement();
-            }}
-          >
-            -
-          </button>
-          {count}
-          <button
-            onClick={() => {
-              increment();
-            }}
-          >
-            +
-          </button>
-        </div>
-        {!!codecs?.length && (
-          <div>
-            <h4>Codecs</h4>
-            <Codecs codecIds={codecs} />
-          </div>
-        )}
-        <div>
-          <h4>Reviews</h4>
-          <Reviews reviewIds={reviews} />
-          <NewReviewForm />
-        </div>
+        <h4>Reviews</h4>
+        <Reviews reviewIds={reviews} />
+        <NewReviewForm />
       </div>
-    </CountContext.Provider>
+    </div>
   );
 };
