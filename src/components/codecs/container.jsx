@@ -1,26 +1,17 @@
-import { useEffect } from "react";
 import { Codecs } from "./component";
-import { getCodecsByHeadphoneId } from "../../redux/entities/codec/thunks/get-codecs-by-headphone-id";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { selectHeadphoneCodecIds } from "../../redux/entities/headphone/selectors";
+import { useGetCodecsByProductIdQuery } from "../../redux/service/api";
 
 export const CodecsContainer = ({ headphoneId }) => {
-  const dispatch = useDispatch();
+  const { data: codecs, isFetching } =
+    useGetCodecsByProductIdQuery(headphoneId);
 
-  const codecIds = useSelector((state) =>
-    selectHeadphoneCodecIds(state, headphoneId)
-  );
+  if (isFetching) {
+    return <div>Loading</div>;
+  }
 
-  console.log(codecIds);
-
-  useEffect(() => {
-    dispatch(getCodecsByHeadphoneId(headphoneId));
-  }, [dispatch, headphoneId]);
-
-  if (!codecIds) {
+  if (!codecs) {
     return;
   }
 
-  return <Codecs codecIds={codecIds} />;
+  return <Codecs codecs={codecs} />;
 };

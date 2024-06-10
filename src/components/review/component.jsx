@@ -1,6 +1,3 @@
-import { useSelector } from "react-redux";
-
-export const Review = ({ reviewId }) => {
-  const review = useSelector((state) => state.review.entities[reviewId]);
+export const Review = ({ review }) => {
   return <span>{review.text}</span>;
 };

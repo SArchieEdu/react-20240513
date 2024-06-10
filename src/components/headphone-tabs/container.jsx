@@ -1,21 +1,23 @@
 /* eslint-disable react/jsx-key */
 
-import { useSelector } from "react-redux";
 import { HeadphoneTabs } from "./component";
-import { selectHeadphoneIds } from "../../redux/entities/headphone/selectors";
+import { useGetHeadphonesQuery } from "../../redux/service/api";
 
 export const HeadphoneTabsContainer = ({ onTabClick, activeHeadphoneId }) => {
-  const headphoneIds = useSelector(selectHeadphoneIds);
-
-  if (!headphoneIds) {
-    return;
-  }
+  const { data: headphones, isLoading, isFetching } = useGetHeadphonesQuery();
+  console.log(headphones);
 
   return (
-    <HeadphoneTabs
-      headphoneIds={headphoneIds}
-      onTabClick={onTabClick}
-      activeHeadphoneId={activeHeadphoneId}
-    />
+    <>
+      {isLoading && <div>Loading</div>}
+      {isFetching && <div>isFetching</div>}
+      {headphones?.length > 0 && (
+        <HeadphoneTabs
+          headphones={headphones}
+          onTabClick={onTabClick}
+          activeHeadphoneId={activeHeadphoneId}
+        />
+      )}
+    </>
   );
 };

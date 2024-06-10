@@ -4,14 +4,20 @@ import { Reviews } from "../reviews/component";
 import { useSelector } from "react-redux";
 import { Counter } from "../counter/component";
 import { selectHeadphoneCount } from "../../redux/ui/cart/selectors";
-import { selectHeadphoneById } from "../../redux/entities/headphone/selectors";
 import { useDispatch } from "react-redux";
 import { decrement, increment } from "../../redux/ui/cart";
 import { useCallback } from "react";
 import { CodecsContainer } from "../codecs/container";
+import { useGetHeadphonesQuery } from "../../redux/service/api";
+import { selectHeadphoneFromResult } from "../../redux/service/api/selectors";
+import { Button } from "../button/component";
 
 export const Headphone = ({ id }) => {
-  const headphone = useSelector((state) => selectHeadphoneById(state, id));
+  const { data: headphone, refetch } = useGetHeadphonesQuery(undefined, {
+    skip: !id,
+    selectFromResult: selectHeadphoneFromResult(id),
+  });
+
   const count = useSelector((state) => selectHeadphoneCount(state, id));
   const dispatch = useDispatch();
 
@@ -34,6 +40,7 @@ export const Headphone = ({ id }) => {
   return (
     <div>
       <h3>{name}</h3>
+      <Button onClick={refetch}>refresh</Button>
       <Counter
         value={count}
         increment={handleIncrement}
@@ -47,8 +54,8 @@ export const Headphone = ({ id }) => {
       )}
       <div>
         <h4>Reviews</h4>
-        <Reviews reviewIds={reviews} />
-        <NewReviewForm />
+        <Reviews headphoneId={id} />
+        <NewReviewForm headphoneId={id} />
       </div>
     </div>
   );

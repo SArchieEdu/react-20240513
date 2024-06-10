@@ -1,43 +1,37 @@
 import { useReducer } from "react";
+import { useCreateReviewMutation } from "../../redux/service/api";
+import { Button } from "../button/component";
 
 const DEFAULT_FORM_VALUE = {
-  name: "",
   text: "",
-  address: "",
   rating: 5,
 };
 
 // action - {type: 'setName', payload: ''}
 function reducer(state, { type, payload } = {}) {
   switch (type) {
-    case "setName":
-      return { ...DEFAULT_FORM_VALUE, name: payload };
     case "setText":
       return { ...state, text: payload };
-    case "setAddress":
-      return { ...state, address: payload };
     case "setRating":
       return { ...state, rating: payload };
+    case "clear":
+      return { ...DEFAULT_FORM_VALUE };
     default:
       return state;
   }
 }
 
-export const NewReviewForm = () => {
+export const NewReviewForm = ({ headphoneId }) => {
   const [form, dispatch] = useReducer(reducer, DEFAULT_FORM_VALUE);
+
+  const [createReview, { isLoading }] = useCreateReviewMutation();
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div>
-      <div>
-        <span>Name</span>
-        <input
-          type="text"
-          value={form.name}
-          onChange={(event) =>
-            dispatch({ type: "setName", payload: event.target.value })
-          }
-        />
-      </div>
       <div>
         <span>Text</span>
         <input
@@ -45,16 +39,6 @@ export const NewReviewForm = () => {
           value={form.text}
           onChange={(event) =>
             dispatch({ type: "setText", payload: event.target.value })
-          }
-        />
-      </div>
-      <div>
-        <span>Address</span>
-        <input
-          type="text"
-          value={form.address}
-          onChange={(event) =>
-            dispatch({ type: "setAddress", payload: event.target.value })
           }
         />
       </div>
@@ -70,6 +54,20 @@ export const NewReviewForm = () => {
           }
         />
       </div>
+      <Button
+        onClick={() => {
+          createReview({
+            headphoneId,
+            newReview: {
+              ...form,
+              user: "hr83h29h9h9u12h9213",
+            },
+          });
+          dispatch({ type: "clear" });
+        }}
+      >
+        Save
+      </Button>
     </div>
   );
 };

@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-key */
 
-import { HeadphoneTabContainer } from "../headphone-tab/container";
+import { Tab } from "../tab/component";
 
 export const HeadphoneTabs = ({
-  headphoneIds,
+  headphones,
   onTabClick,
   activeHeadphoneId,
 }) => {
   return (
     <div>
-      {headphoneIds.map((id) => (
-        <HeadphoneTabContainer
-          id={id}
+      {headphones.map(({ id, name }) => (
+        <Tab
+          title={name}
           onClick={() => onTabClick(id)}
           isActive={activeHeadphoneId === id}
         />
