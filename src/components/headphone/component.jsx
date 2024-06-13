@@ -1,61 +1,49 @@
 /* eslint-disable react/jsx-key */
 import { NewReviewForm } from "../new-review-form/component";
 import { Reviews } from "../reviews/component";
-import { useSelector } from "react-redux";
 import { Counter } from "../counter/component";
-import { selectHeadphoneCount } from "../../redux/ui/cart/selectors";
-import { useDispatch } from "react-redux";
-import { decrement, increment } from "../../redux/ui/cart";
-import { useCallback } from "react";
 import { CodecsContainer } from "../codecs/container";
 import { useGetHeadphonesQuery } from "../../redux/service/api";
 import { selectHeadphoneFromResult } from "../../redux/service/api/selectors";
-import { Button } from "../button/component";
+import { useParams } from "react-router-dom";
+import { useCart } from "../../hooks/use-cart";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Headphone = ({ id }) => {
-  const { data: headphone, refetch } = useGetHeadphonesQuery(undefined, {
-    skip: !id,
-    selectFromResult: selectHeadphoneFromResult(id),
+export const Headphone = () => {
+  const { headphoneId } = useParams();
+  const { data: headphone } = useGetHeadphonesQuery(undefined, {
+    skip: !headphoneId,
+    selectFromResult: selectHeadphoneFromResult(headphoneId),
   });
+  const navigate = useNavigate();
 
-  const count = useSelector((state) => selectHeadphoneCount(state, id));
-  const dispatch = useDispatch();
+  const { count, increment, decrement } = useCart(headphoneId);
 
-  const handleIncrement = useCallback(
-    () => dispatch(increment(id)),
-    [dispatch, id]
-  );
-
-  const handleDecrement = useCallback(
-    () => dispatch(decrement(id)),
-    [dispatch, id]
-  );
+  useEffect(() => {
+    if (count === 5) {
+      navigate("/promo", { replace: true });
+    }
+  }, [count, navigate]);
 
   if (!headphone) {
     return <div>No Headphone</div>;
   }
 
-  const { name, codecs, reviews } = headphone;
+  const { name } = headphone;
 
   return (
     <div>
       <h3>{name}</h3>
-      <Button onClick={refetch}>refresh</Button>
-      <Counter
-        value={count}
-        increment={handleIncrement}
-        decrement={handleDecrement}
-      />
-      {!!codecs?.length && (
-        <div>
-          <h4>Codecs</h4>
-          <CodecsContainer headphoneId={id} />
-        </div>
-      )}
+      <Counter value={count} increment={increment} decrement={decrement} />
+      <div>
+        <h4>Codecs</h4>
+        <CodecsContainer headphoneId={headphoneId} />
+      </div>
       <div>
         <h4>Reviews</h4>
-        <Reviews headphoneId={id} />
-        <NewReviewForm headphoneId={id} />
+        <Reviews headphoneId={headphoneId} />
+        <NewReviewForm headphoneId={headphoneId} />
       </div>
     </div>
   );
